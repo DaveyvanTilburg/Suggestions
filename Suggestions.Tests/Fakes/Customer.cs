@@ -1,4 +1,6 @@
-﻿namespace Suggestions.Customers
+﻿using Suggestions.Attributes;
+
+namespace Suggestions.Tests.Fakes
 {
     public class Customer : ISuggestable
     {

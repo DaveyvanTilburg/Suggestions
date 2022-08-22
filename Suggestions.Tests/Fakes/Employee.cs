@@ -1,4 +1,6 @@
-﻿namespace Suggestions.Employees
+﻿using Suggestions.Attributes;
+
+namespace Suggestions.Tests.Fakes
 {
     public class Employee : ISuggestable
     {

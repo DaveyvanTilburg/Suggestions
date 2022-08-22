@@ -1,4 +1,6 @@
-﻿namespace Suggestions.Locations
+﻿using Suggestions.Attributes;
+
+namespace Suggestions.Tests.Fakes
 {
     public class Location : ISuggestable
     {

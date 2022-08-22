@@ -39,13 +39,13 @@ namespace Suggestions.Tests
         {
             IEnumerable<ISuggestableRepository> linkRepositories = new List<ISuggestableRepository>
             {
-                new FakeCustomerRepository(),
-                new FakeEmployeeRepository(),
-                new FakeLocationRepository()
+                FakeRepositoryFactory.EmployeeRepository(),
+                FakeRepositoryFactory.CustomerRepository(),
+                FakeRepositoryFactory.LocationRepository()
             };
 
             var suggestionRepository = new SuggestableRepository(linkRepositories, 10);
-            List<Suggestion> suggestions = suggestionRepository.Suggestions(question).ToList();
+            List<Suggestion> suggestions = suggestionRepository.Suggestions(1, question).ToList();
             suggestions.Should().BeEquivalentTo(expectedSuggestions);
         }
     }

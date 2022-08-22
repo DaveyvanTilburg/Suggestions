@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Suggestions.Attributes;
 using Xunit;
 
 namespace Suggestions.Tests
@@ -21,7 +22,7 @@ namespace Suggestions.Tests
             };
 
             var suggestionRepository = new SuggestableRepository(linkRepositories, maxSuggestions);
-            List<Suggestion> suggestions = suggestionRepository.Suggestions("search666").ToList();
+            List<Suggestion> suggestions = suggestionRepository.Suggestions(1, "search666").ToList();
             suggestions.Count.Should().Be(maxSuggestions);
         }
 
@@ -58,17 +59,20 @@ namespace Suggestions.Tests
                 _items = new List<FakeItem>(items);
             }
 
-            public void OnDeleteCallback(Action<ISuggestableRepository, int> callback)
+            public string Key()
+                => nameof(FakeItem);
+
+            public void OnDeleteCallback(Action<DeleteCallback> callback)
             {
                 throw new NotImplementedException();
             }
 
-            public void OnUpdateCallback(Action<ISuggestableRepository, ISuggestable> callback)
+            public void OnUpdateCallback(Action<UpdateCallback> callback)
             {
                 throw new NotImplementedException();
             }
 
-            public IEnumerable<ISuggestable> Suggestables()
+            public IEnumerable<ISuggestable> Suggestables(int userId)
                 => _items;
         }
     }

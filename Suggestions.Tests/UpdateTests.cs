@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Suggestions.Customers;
 using Suggestions.Tests.Fakes;
 using Xunit;
 
@@ -12,7 +11,7 @@ namespace Suggestions.Tests
         {
             string question = "newItem";
 
-            var customerRepository = new FakeCustomerRepository();
+            var customerRepository = FakeRepositoryFactory.CustomerRepository();
             IEnumerable<ISuggestableRepository> linkRepositories = new List<ISuggestableRepository>
             {
                 customerRepository
@@ -21,12 +20,12 @@ namespace Suggestions.Tests
             var suggestionRepository = new SuggestableRepository(linkRepositories, 10);
             suggestionRepository.Register();
 
-            List<Suggestion> suggestions = suggestionRepository.Suggestions(question).ToList();
+            List<Suggestion> suggestions = suggestionRepository.Suggestions(1, question).ToList();
             suggestions.Count.Should().Be(0);
 
-            customerRepository.Add(new Customer(7, "newItem"));
+            customerRepository.AddOrUpdate(1, new Customer(7, "newItem"));
 
-            List<Suggestion> newSuggestions = suggestionRepository.Suggestions(question).ToList();
+            List<Suggestion> newSuggestions = suggestionRepository.Suggestions(1, question).ToList();
             newSuggestions.Count.Should().Be(1);
         }
 
@@ -35,7 +34,7 @@ namespace Suggestions.Tests
         {
             string question = "Alicia";
 
-            var customerRepository = new FakeCustomerRepository();
+            var customerRepository = FakeRepositoryFactory.CustomerRepository();
             IEnumerable<ISuggestableRepository> linkRepositories = new List<ISuggestableRepository>
             {
                 customerRepository
@@ -44,12 +43,12 @@ namespace Suggestions.Tests
             var suggestionRepository = new SuggestableRepository(linkRepositories, 10);
             suggestionRepository.Register();
 
-            List<Suggestion> suggestions = suggestionRepository.Suggestions(question).ToList();
+            List<Suggestion> suggestions = suggestionRepository.Suggestions(1, question).ToList();
             suggestions.Count.Should().Be(1);
 
-            customerRepository.Delete(3);
+            customerRepository.Delete(1, 3);
 
-            List<Suggestion> newSuggestions = suggestionRepository.Suggestions(question).ToList();
+            List<Suggestion> newSuggestions = suggestionRepository.Suggestions(1, question).ToList();
             newSuggestions.Count.Should().Be(0);
         }
     }
